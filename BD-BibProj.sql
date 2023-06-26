@@ -103,6 +103,7 @@ BEGIN
     INNER JOIN Empleado E ON CL.idEmpleado = E.idEmpleado;
 END //
 
+
 INSERT INTO Editorial (idEditorial, nombre, direccion, telefono, email, ruc)
 VALUES 	('EDI01', 'Editorial ABC', 'Calle Principal 123', '123456789', 'info@editorialabc.com', '12345678901'),
 		('EDI02', 'Editorial XYZ', 'Calle Principal 456', '987654321', 'info@editorialxyz.com', '98765432109'),
