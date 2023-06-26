@@ -18,6 +18,7 @@ public class CompraLibroServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String action = request.getParameter("action");
 
         if (action == null)
@@ -73,14 +74,14 @@ public class CompraLibroServlet extends HttpServlet {
 
     private void agregarCompra(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String idCompra = request.getParameter("idCompra");
-        String libro = request.getParameter("libro");
-        String editorial = request.getParameter("editorial");
-        String empleado = request.getParameter("empleado");
+        String idLibro = request.getParameter("idLibro");
+        String idEditorial = request.getParameter("idEditorial");
+        String idEmpleado = request.getParameter("idEmpleado");
         LocalDate fecCompra = LocalDate.parse(request.getParameter("fecCompra"));
         BigDecimal precio = new BigDecimal(request.getParameter("precio"));
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
-        CompraLibro compra = new CompraLibro(idCompra, libro, editorial, empleado, fecCompra, precio, cantidad);
+        CompraLibro compra = new CompraLibro(idCompra, idLibro, idEditorial, idEmpleado, fecCompra, precio, cantidad);
         CompraLibroModel.agregarCompraLibro(compra);
 
         listarCompras(request, response);
@@ -96,23 +97,22 @@ public class CompraLibroServlet extends HttpServlet {
 
     private void actualizarCompra(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String idCompra = request.getParameter("idCompra");
-        String libro = request.getParameter("libro");
-        String editorial = request.getParameter("editorial");
-        String empleado = request.getParameter("empleado");
+        String idLibro = request.getParameter("idLibro");
+        String idEditorial = request.getParameter("idEditorial");
+        String idEmpleado = request.getParameter("idEmpleado");
         LocalDate fecCompra = LocalDate.parse(request.getParameter("fecCompra"));
         BigDecimal precio = new BigDecimal(request.getParameter("precio"));
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
-        CompraLibro compra = new CompraLibro(idCompra, libro, editorial, empleado, fecCompra, precio, cantidad);
+        CompraLibro compra = new CompraLibro(idCompra, idLibro, idEditorial, idEmpleado, fecCompra, precio, cantidad);
         CompraLibroModel.actualizarCompraLibro(compra);
-
         listarCompras(request, response);
     }
 
     private void eliminarCompra(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idCompra = request.getParameter("idCompra");
-        CompraLibroModel.eliminarCompraLibro(idCompra);
 
+        CompraLibroModel.eliminarCompraLibro(idCompra);
         listarCompras(request, response);
     }
 
