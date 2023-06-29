@@ -59,12 +59,23 @@ public class CompraLibroModel {
             preparedStatement.setInt(7, compra.getCantidad());
 
             preparedStatement.executeUpdate();
+            
+            // Incrementar el stock del libro en la misma transacción
+            String libroId = compra.getIdLibro();
+            int cantidadComprada = compra.getCantidad();
+            query = "UPDATE Libro SET stock = stock + ? WHERE idLibro = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, cantidadComprada);
+            preparedStatement.setString(2, libroId);
+            preparedStatement.executeUpdate();
+            
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public static CompraLibro mostrarCompraLibro(String idCompra) {
         CompraLibro compra = null;
