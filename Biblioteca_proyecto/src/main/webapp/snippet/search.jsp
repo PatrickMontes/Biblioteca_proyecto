@@ -13,7 +13,7 @@
 	<nav class="navbar">
 		<div class="container-fluid">
 			<form class="d-flex" role="search" style="margin-left: 9rem">
-				<input class="form-control me-4" type="search" placeholder="Ingese su búsqueda" aria-label="Search" id="busqueda" oninput="filtrarTabla()">
+				<input class="form-control me-4" type="search" placeholder="Ingrese su búsqueda" aria-label="Search" id="busqueda" oninput="filtrarTabla()">
                 <button class="btn btn-warning" type="button" style="color: #fff; font-weight: 600">Buscar</button>
             </form>
         </div>

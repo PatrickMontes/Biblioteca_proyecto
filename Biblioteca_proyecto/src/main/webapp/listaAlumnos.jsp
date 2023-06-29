@@ -48,7 +48,7 @@
 		</table>
 
 		<div class="d-flex justify-content-center">
-			<input class="btn btn-primary" type="button" value="Crear Alumno"
+			<input class="btn btn-primary" type="button" value="Agregar Alumno"
 				style="color: #fff; font-weight: 600"
 				onclick="window.location.href='registrarAlumno.jsp'">
 		</div>

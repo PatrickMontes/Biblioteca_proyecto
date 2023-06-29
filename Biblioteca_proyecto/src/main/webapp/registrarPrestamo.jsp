@@ -46,7 +46,17 @@
                 </div>
             </div>
             <div class="row mb-3">
+                 <div class="col-md-6">
+                    <label for="fecPrestamo" class="form-label"><b>Fecha de Préstamo:</b></label>
+                    <input type="date" class="form-control" id="fecPrestamo" name="fecPrestamo">
+                </div>
                 <div class="col-md-6">
+                    <label for="fecDevolucion" class="form-label"><b>Fecha de Devolución:</b></label>
+                    <input type="date" class="form-control" id="fecDevolucion" name="fecDevolucion">
+                </div>  
+            </div>
+            <div class="row mb-3">     
+                 <div class="col-md-6">
                     <label for="idAlumno" class="form-label"><b>Alumno:</b></label>
                     <select class="form-select" id="idAlumno" name="idAlumno">
                         <% try {
@@ -65,19 +75,9 @@
                 <div class="col-md-6">
                     <label for="estDevolucion" class="form-label"><b>Estado de Devolución:</b></label>
                     <select class="form-select" id="estDevolucion" name="estDevolucion">
-                        <option value="Pendiente">Pendiente</option>
+                        <option value="Prestado">Prestado</option>
                         <option value="Devuelto">Devuelto</option>
                     </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="fecPrestamo" class="form-label"><b>Fecha de Préstamo:</b></label>
-                    <input type="date" class="form-control" id="fecPrestamo" name="fecPrestamo">
-                </div>
-                <div class="col-md-6">
-                    <label for="fecDevolucion" class="form-label"><b>Fecha de Devolución:</b></label>
-                    <input type="date" class="form-control" id="fecDevolucion" name="fecDevolucion">
                 </div>
             </div>
              <div class="row mb-3">

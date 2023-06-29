@@ -41,32 +41,36 @@ public class PrestamoModel {
     }
     
     public static void agregarPrestamo(Prestamo prestamo) throws Exception {
-        try (Connection connection = MySQLConexion.getConexion()) {
-            String query = "INSERT INTO Prestamo (idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, prestamo.getIdPrestamo());
-                preparedStatement.setString(2, prestamo.getIdLibro());
-                preparedStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
-                preparedStatement.setDate(4, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
-                preparedStatement.setString(5, prestamo.getIdAlumno());
-                preparedStatement.setString(6, prestamo.getEstDevolucion());
+    	 Connection connection = null;
+         PreparedStatement preparedStatement = null;
+         try {
+             connection = MySQLConexion.getConexion();
+             String query = "INSERT INTO Prestamo (idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion) VALUES (?, ?, ?, ?, ?, ?)";             
+             preparedStatement = connection.prepareStatement(query);
 
-                preparedStatement.executeUpdate();
-                preparedStatement.close();
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+             preparedStatement.setString(1, prestamo.getIdPrestamo());
+             preparedStatement.setString(2, prestamo.getIdLibro());
+             preparedStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
+             preparedStatement.setDate(4, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
+             preparedStatement.setString(5, prestamo.getIdAlumno());
+             preparedStatement.setString(6, prestamo.getEstDevolucion());
+
+             preparedStatement.executeUpdate();
+             preparedStatement.close();
+             connection.close();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
     }
-    
+   
     
     public static Prestamo mostrarPrestamoLibro(String idPrestamo) {
         Prestamo prestamo = null;
         try (Connection connection = MySQLConexion.getConexion()) {
-            String sql = "SELECT P.idPrestamo, L.titulo, P.fecPrestamo, P.fecDevolucion, CONCAT(a.nombre, ' ', a.apellido) AS alumno, P.estDevolucion "
+            String sql = "SELECT P.idPrestamo, L.titulo, P.fecPrestamo, P.fecDevolucion, A.nombre AS alumno, P.estDevolucion "
                     + "FROM Prestamo P "
                     + "INNER JOIN Libro L ON P.idLibro = L.idLibro "
+                    + "INNER JOIN Alumno A ON P.idAlumno = A.idAlumno "
                     + "WHERE P.idPrestamo = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

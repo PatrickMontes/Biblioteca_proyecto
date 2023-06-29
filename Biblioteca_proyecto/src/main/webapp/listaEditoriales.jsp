@@ -45,7 +45,7 @@
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Crear Editorial"
+            <input class="btn btn-primary" type="button" value="Agregar Editorial"
                 style="color: #fff; font-weight: 600"
                 onclick="window.location.href='registrarEditorial.jsp'">
         </div>

@@ -71,8 +71,6 @@ public class PrestamoServlet extends HttpServlet {
     private void agregarPrestamo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String idPrestamo = request.getParameter("id");
         String idLibro = request.getParameter("idLibro");
-        String idAlumno = request.getParameter("idAlumno");
-        String estDevolucion = request.getParameter("estDevolucion");
 
         String fecPrestamoStr = request.getParameter("fecPrestamo");
         LocalDate fecPrestamo = null;
@@ -91,7 +89,8 @@ public class PrestamoServlet extends HttpServlet {
         } else {
             fecDevolucion = LocalDate.now();
         }
-
+        String idAlumno = request.getParameter("idAlumno");
+        String estDevolucion = request.getParameter("estDevolucion");
         Prestamo prestamo = new Prestamo(idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion);
         PrestamoModel.agregarPrestamo(prestamo);
 
@@ -109,9 +108,6 @@ public class PrestamoServlet extends HttpServlet {
     private void actualizarPrestamo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String idPrestamo = request.getParameter("id");
         String idLibro = request.getParameter("idLibro");
-        String idAlumno = request.getParameter("idAlumno");
-        String estDevolucion = request.getParameter("estDevolucion");
-
         String fecPrestamoStr = request.getParameter("fecPrestamo");
         LocalDate fecPrestamo = null;
 
@@ -129,7 +125,8 @@ public class PrestamoServlet extends HttpServlet {
         } else {
             fecDevolucion = LocalDate.now();
         }
-
+        String idAlumno = request.getParameter("idAlumno");
+        String estDevolucion = request.getParameter("estDevolucion");
         Prestamo prestamo = new Prestamo(idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion);
         PrestamoModel.actualizarPrestamoLibro(prestamo);
 

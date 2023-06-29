@@ -24,14 +24,7 @@
 	<div class="d-flex align-items-center justify-content-center">
 		<h1 style="text-transform: uppercase"><strong>Compras</strong></h1>
 
-		<nav class="navbar">
-			<div class="container-fluid">
-				<form class="d-flex" role="search" style="margin-left: 9rem">
-					<input class="form-control me-4" type="search" placeholder="Ingrese su búsqueda" aria-label="Search" id="busqueda" oninput="filtrarTabla()">
-					<button class="btn btn-warning" type="button" style="color: #fff; font-weight: 600">Buscar</button>
-				</form>
-			</div>
-		</nav>
+		<%@include file="snippet/search.jsp" %>
 	</div>
 	<br>
 	<div class="container">

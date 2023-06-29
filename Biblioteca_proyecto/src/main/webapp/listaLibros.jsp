@@ -1,6 +1,7 @@
 <%@page import="java.util.List"%>
 <%@page import="entities.Libro"%>
 <%@page import="java.sql.*"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -8,31 +9,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Libros</title>
-	<%@include file="snippet/bootstrap_ini.jsp" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">	<%@include file="snippet/bootstrap_ini.jsp" %>
 </head>
 <body>
-	<!--%
-            HttpSession sesion=request.getSession();
-            if( sesion.getAttribute("logueado")==null ||  sesion.getAttribute("logueado").equals("0") ){
-                response.sendRedirect("login.jsp");
-            }
-            Connection con = null;
-            Statement st = null;
-            ResultSet rs = null;
-     %-->
-	<%@include file="snippet/nav_bar.jsp"%>
+
+	<%@ include file="snippet/nav_bar.jsp"%>
 
 	<div class="d-flex align-items-center justify-content-center">
 		<h1 style="text-transform: uppercase"><strong>Libros</strong></h1>
 
-			<nav class="navbar">
-		<div class="container-fluid">
-			<form class="d-flex" role="search" style="margin-left: 9rem">
-				<input class="form-control me-4" type="search" placeholder="Ingese su búsqueda" aria-label="Search" id="busqueda" oninput="filtrarTabla()">
-                <button class="btn btn-warning" type="button" style="color: #fff; font-weight: 600">Buscar</button>
-            </form>
-        </div>
-    </nav>
+		<%@include file="snippet/search.jsp" %>
 	</div>
 	<br>
     <div class="container">
@@ -64,7 +50,7 @@
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Crear Libro" 
+            <input class="btn btn-primary" type="button" value="Agregar Libro" 
             	style="color: #fff; font-weight:600"
                 onclick="window.location.href='registrarLibro.jsp'">
         </div>

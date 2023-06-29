@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import entities.CompraLibro;
+import entities.Editorial;
 
 public class CompraLibroServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -139,7 +140,7 @@ public class CompraLibroServlet extends HttpServlet {
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
         System.out.println("idCompra: " + idCompra);
-        System.out.println("idLibro: " + idLibro);
+       System.out.println("idLibro: " + idLibro);
         System.out.println("idEditorial: " + idEditorial);
         System.out.println("idEmpleado: " + idEmpleado);
         System.out.println("fecCompra: " + fecCompra);
