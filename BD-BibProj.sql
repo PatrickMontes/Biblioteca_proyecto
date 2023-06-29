@@ -1,5 +1,5 @@
 CREATE DATABASE biblioteca_project CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE Biblioteca_Project;
+USE biblioteca_project;
 
 CREATE TABLE Editorial (
   idEditorial char(5) PRIMARY KEY,
@@ -9,11 +9,6 @@ CREATE TABLE Editorial (
   email varchar(100),
   ruc varchar(15)
 );
-/*select * from editorial;
-UPDATE editorial
-SET nombre = 'Editorial DEF'
-WHERE idEditorial = 'EDI03';*/
-
 
 CREATE TABLE Alumno (
   idAlumno char(5) PRIMARY KEY,
@@ -23,7 +18,6 @@ CREATE TABLE Alumno (
   telefono varchar(12),
   email varchar(100)
 );
-/*select * from alumno;*/
 
 CREATE TABLE Empleado (
   idEmpleado char(5) PRIMARY KEY,
@@ -79,6 +73,7 @@ CREATE TABLE CompraLibro (
   FOREIGN KEY (idEmpleado) REFERENCES Empleado(idEmpleado)
 );
 
+/**PROCEDURE:*/
 DELIMITER //
 CREATE PROCEDURE SP_MostrarLibros()
 BEGIN
@@ -88,8 +83,6 @@ BEGIN
     order by l.idLibro;
 END //
 DELIMITER ;
-
-call sp_mostrarlibros();
 
 DELIMITER //
 CREATE PROCEDURE ObtenerDetallesCompra()
@@ -132,6 +125,8 @@ BEGIN
     INNER JOIN Alumno a ON p.idAlumno = a.idAlumno;
 END //
 
+
+/**INSERTAR REGISTROS:**/
 INSERT INTO Editorial (idEditorial, nombre, direccion, telefono, email, ruc)
 VALUES 	('EDI01', 'Editorial ABC', 'Calle Principal 123', '123456789', 'info@editorialabc.com', '12345678901'),
 		('EDI02', 'Editorial XYZ', 'Calle Principal 456', '987654321', 'info@editorialxyz.com', '98765432109'),
