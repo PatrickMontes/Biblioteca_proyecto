@@ -25,7 +25,7 @@
 		<div class="container-fluid">
 
 			<!-- icono o nombre -->
-			<a class="navbar-brand" href="#"
+			<a class="navbar-brand" href="LibroServlet?listaLibros&action=listar"
 				style="padding-left: 3rem; padding-right: 3rem;"> <i
 				class="bi bi-book" style="font-size: 2rem; color: #bbb"></i> <span
 				style="font-size: 2rem; color: #bbb"><b>CiberBiblioteca</b></span>

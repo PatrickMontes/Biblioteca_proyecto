@@ -20,7 +20,7 @@
     <div class="container">
         <table class="table table-striped" id="tablaEditoriales">
             <tr>
-                <th scope="col">Id</th>
+                <th scope="col">Código</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Teléfono</th>
@@ -45,7 +45,7 @@
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Agregar Editorial"
+            <input class="btn btn-primary" type="button" value="Agregar"
                 style="color: #fff; font-weight: 600"
                 onclick="window.location.href='registrarEditorial.jsp'">
         </div>

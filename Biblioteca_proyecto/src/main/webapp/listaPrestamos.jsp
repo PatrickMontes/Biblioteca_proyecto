@@ -20,18 +20,18 @@
     </div>
     <br>
     <div class="container">
-        <table class="table table-striped" id="tabla">
+        <table class="table table-striped" id="tablaPrestamo">
             <tr>
-                <th scope="col">Id</th>
+                <th scope="col">Código</th>
                 <th scope="col">Libro</th>
                 <th scope="col">Fecha de préstamo</th>
                 <th scope="col">Fecha de devolución</th>
                 <th scope="col">Alumno</th>
-                <th scope="col">Estado de devolución</th>
+                <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
             <% for (Prestamo prestamo : (List<Prestamo>) request.getAttribute("prestamos")) { %>
-            <tr id="fila">
+            <tr class="filaPrestamo">
                 <th><%= prestamo.getIdPrestamo() %></th>
                 <td><%= prestamo.getLibro() %></td>
                 <td><%= prestamo.getFecPrestamo() %></td>
@@ -43,11 +43,11 @@
                     <a class="btn btn-outline-danger" onclick="confirmarEliminacion('<%= prestamo.getIdPrestamo()%>')" href="#">Eliminar</a>
                 </td>
             </tr>
-            <%} %>
+            <%}%>
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Agregar Prestamo" 
+            <input class="btn btn-primary" type="button" value="Agregar" 
                 style="color: #fff; font-weight:600"
                 onclick="window.location.href='registrarPrestamo.jsp'">
         </div>
@@ -57,17 +57,22 @@
 
 <script>
     function filtrarTabla() {
-        var input, filter, table, tr, td, i, txtValue;
+        var input, filter, table, th, tr, thId, tdLibro, tdFecha, tdAlumno, i;
         input = document.getElementById("busqueda");
         filter = input.value.toUpperCase();
-        table = document.getElementById("tabla");
-        tr = table.getElementsByTagName("tr");
+        table = document.getElementById("tablaPrestamo");
+        tr = table.getElementsByClassName("filaPrestamo");
 
-        for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1]; // Filtrar por la segunda columna (Libro)
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        for (i = 0; i < tr.length; i++) {
+            tdId = tr[i].querySelectorAll("th")[0];
+            tdLibro = tr[i].querySelectorAll("td")[0];
+            tdFecha = tr[i].querySelectorAll("td")[1];
+            tdAlumno = tr[i].querySelectorAll("td")[3];
+            if (tdId || tdLibro || tdPrestamo || tdAlumno) {
+                if (tdId.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                    tdLibro.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                    tdFecha.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                    tdAlumno.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";

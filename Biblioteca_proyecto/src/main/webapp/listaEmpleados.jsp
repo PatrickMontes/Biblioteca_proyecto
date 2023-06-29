@@ -22,9 +22,9 @@
     <br>
     <div class="container">
     
-        <table class="table table-striped"  id="tabla">
+        <table class="table table-striped"  id="tablaEmpleados">
             <tr>
-                <th scope="col">Codigo</th>
+                <th scope="col">Código</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Direccion</th>
@@ -33,7 +33,7 @@
                 <th scope="col">Acciones</th>
             </tr>
 			<% for (Empleado empleado : (List<Empleado>) request.getAttribute("empleados")) { %>
-            <tr>
+            <tr class="filaEmpleado">
                 <th><%= empleado.getIdEmpleado() %></th>
                 <td><%= empleado.getNombre() %></td>
                 <td><%= empleado.getApellido() %></td>
@@ -50,7 +50,7 @@
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Agregar Empleado" style="color: #fff; font-weight:600"
+            <input class="btn btn-primary" type="button" value="Agregar" style="color: #fff; font-weight:600"
                 onclick="window.location.href='registrarEmpleado.jsp'">
         </div>
 
@@ -68,6 +68,29 @@
 			window.location.href = "EmpleadoServlet?action=eliminar&id=" + id;
 		}
 	}
+	
+	function filtrarTabla() {
+        var input, filter, table, th, tr, thId, tdNombre, tdApellido, i;
+        input = document.getElementById("busqueda");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaEmpleados");
+        tr = table.getElementsByClassName("filaEmpleado");
+
+        for (i = 0; i < tr.length; i++) {
+            tdId = tr[i].getElementsByTagName("th")[0];
+            tdNombre = tr[i].getElementsByTagName("td")[0];
+            tdApellido = tr[i].getElementsByTagName("td")[1];
+            if (tdId || tdNombre || tdApellido) {
+                if (tdId.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                    tdNombre.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                    tdApellido.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
 </script>
 
 </html>

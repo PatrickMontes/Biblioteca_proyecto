@@ -21,7 +21,7 @@
     <div class="container">
         <br>
         <h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Préstamo</strong></h1><br>
-        <form style="margin: 0 12%" method="post" action="PrestamoServlet?action=agregar">
+        <form style="margin: 0 12%" method="post" action="PrestamoServlet?action=agregar" onsubmit="return validarCampos();">
             <input type="hidden" name="action" value="agregar">
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -80,16 +80,44 @@
                     </select>
                 </div>
             </div>
-             <div class="row mb-3">
-                <div class="col-md-12">
-                    <input type="submit" name="enviar" id="enviar" value="Registrar Prestamo"
-                        class="btn btn-primary" style="font-weight: 600">
-                    <a href="" class="btn btn-secondary">Cancelar</a>
-                </div>
-            </div>
+            <div class="row">
+				<div class="col-md-12 text-center">
+					<br>
+					<input type="submit" name="enviar" id="enviar"
+						value="Registrar" class="btn btn-primary"
+						style="font-weight: 600"> 
+					<a href="PrestamoServlet?ListaPrestamos&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
+				</div>
+			</div>
         </form>
     </div>
 
     <%@include file="snippet/bootstrap_fin.jsp" %>
+    
+    <script>
+        function validarCampos() {
+            var id = document.getElementById("id").value;
+            var idLibro = document.getElementById("idLibro").value;
+            var fecPrestamo = document.getElementById("fecPrestamo").value;
+            var fecDevolucion = document.getElementById("fecDevolucion").value;
+            var idAlumno = document.getElementById("idAlumno").value;
+
+            var idPattern = /^PRE\d{2}$/;
+            
+            if (id === '' || idLibro === '' || fecPrestamo === '' || fecDevolucion === '' || idAlumno === '') {
+                alert("Todos los campos son requeridos.");
+                location.reload();
+                return false;
+            }
+            
+            if (!idPattern.test(id)) {
+                alert("El formato de la ID no es válido. Debe seguir el formato 'PRE' seguido de dos dígitos.");
+                location.reload();
+                return false; // Evita enviar el formulario
+            }
+            
+            return true;
+        }
+    </script>
 </body>
 </html>

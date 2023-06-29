@@ -25,7 +25,7 @@
 
         <table class="table table-striped" id="tabla">
             <tr>
-                <th scope="col">Id</th>
+                <th scope="col">Código</th>
                 <th scope="col">Titulo</th>
                 <th scope="col">Autor</th>
                 <th scope="col">Editorial</th>
@@ -50,7 +50,7 @@
         </table>
 
         <div class="d-flex justify-content-center">
-            <input class="btn btn-primary" type="button" value="Agregar Libro" 
+            <input class="btn btn-primary" type="button" value="Agregar" 
             	style="color: #fff; font-weight:600"
                 onclick="window.location.href='registrarLibro.jsp'">
         </div>

@@ -94,6 +94,28 @@ public class EditorialServlet extends HttpServlet {
 	    EditorialModel.agregarEditorial(editorial);
 	    listarEditoriales(request, response);
 	}
+	/*private void agregarEditorial(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    String idEditorial = request.getParameter("id");
+	    String nombre = request.getParameter("nombre");
+	    String direccion = request.getParameter("direccion");
+	    String telefono = request.getParameter("telefono");
+	    String email = request.getParameter("email");
+	    String ruc = request.getParameter("ruc");
+
+	    if (EditorialModel.existeIdEditorial(idEditorial)) {
+	        // Código de ID duplicado, mostrar mensaje de error
+	        String errorMessage = "El código de ID ya está registrado.";
+	        request.setAttribute("error", errorMessage);
+	        listarEditoriales(request, response);
+	        return;
+	    }
+
+
+	    Editorial editorial = new Editorial(idEditorial, nombre, direccion, telefono, email, ruc);
+	    EditorialModel.agregarEditorial(editorial);
+	    listarEditoriales(request, response);
+	}*/
+
 
 	private void actualizarEditorial(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    String idEditorial = request.getParameter("id");

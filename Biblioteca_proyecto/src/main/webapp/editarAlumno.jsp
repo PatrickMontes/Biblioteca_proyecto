@@ -57,8 +57,8 @@
 			<div class="row">
 				<div class="col-md-12 text-center">
 					<br>
-					<input type="submit" name="enviar" id="enviar" value="Editar Alumno" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
-					<input type="reset" name="borrar" id="borrar" value="Restablecer" class="btn btn-secondary" style="font-weight: 600">
+					<input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
+					<a href="AlumnoServlet?listaAlumnos&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
 				</div>
 			</div>
 		</form>

@@ -15,7 +15,7 @@
 		<br>
 		<h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Empleado</strong></h1>
 		<br>
-		<form style="margin: 0 12%" method="get" action="EmpleadoServlet">
+		<form style="margin: 0 12%" method="get" action="EmpleadoServlet" onsubmit="return validarCampos();">
 			<input type="hidden" name="action" value="agregar">
 			<div class="row mb-3">
 				<div class="col-md-6">
@@ -61,14 +61,41 @@
 				<div class="col-md-12 text-center">
 					<br>
 					<input type="submit" name="enviar" id="enviar"
-						value="Registrar Empleado" class="btn btn-primary"
-						style="font-weight: 600"> <input type="reset"
-						name="borrar" id="borrar" value="Restablecer"
-						class="btn btn-secondary" style="font-weight: 600">
+						value="Registrar" class="btn btn-primary"
+						style="font-weight: 600">
+					<a href="EmpleadoServlet?ListaEmpleados&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
 				</div>
 			</div>
 		</form>
 	</div>
 </body>
 <%@include file="snippet/bootstrap_fin.jsp" %>
+<script>
+	function validarCampos() {
+		var id = document.getElementById("id").value;
+		var nombre = document.getElementById("nombre").value;
+		var apellido = document.getElementById("apellido").value;
+		var direccion = document.getElementById("direccion").value;
+		var telefono = document.getElementById("telefono").value;
+		var email = document.getElementById("email").value;
+		var dni = document.getElementById("dni").value;
+		var clave = document.getElementById("clave").value;
+
+		var idPattern = /^EMP\d{2}$/;
+		
+		if (id === '' || nombre === '' || apellido === '' || direccion === '' || telefono === '' || email === '' || dni === '' || clave === '') {
+			alert("Todos los campos son requeridos.");
+			location.reload(); 
+			return false;
+		}
+		
+		 if (!idPattern.test(id)) {
+	            alert("El formato de la ID no es válido. Debe seguir el formato 'EMP' seguido de dos dígitos.");
+	            location.reload();
+	            return false; // Evita enviar el formulario
+	        }
+		
+		return true;
+	}
+</script>
 </html>

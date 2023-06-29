@@ -10,15 +10,7 @@
 	<%@include file="snippet/bootstrap_ini.jsp" %>
 </head>
 <body>
-	<!--%
-        HttpSession sesion=request.getSession();
-        if( sesion.getAttribute("logueado")==null ||  sesion.getAttribute("logueado").equals("0") ){
-            response.sendRedirect("login.jsp");
-        }
-        Connection con = null;
-        Statement st = null;
-        ResultSet rs = null;
-    %-->
+
 	<%@include file="snippet/nav_bar.jsp"%>
 
 	<div class="d-flex align-items-center justify-content-center">
@@ -28,9 +20,9 @@
 	</div>
 	<br>
 	<div class="container">
-		<table class="table table-striped" id="tabla">
+		<table class="table table-striped" id="tablaCompras">
 			<tr>
-				<th scope="col">Id</th>
+				<th scope="col">Código</th>
 				<th scope="col">Libro</th>
 				<th scope="col">Editorial</th>
 				<th scope="col">Empleado</th>
@@ -40,7 +32,7 @@
 				<th scope="col">Acciones</th>
 			</tr>
 			<% for (CompraLibro compra : (List<CompraLibro>) request.getAttribute("compras")) { %>
-			<tr id="fila">
+			<tr class="filaCompras">
 				<th><%= compra.getIdCompra() %></th>
 				<td><%= compra.getLibro() %></td>
 				<td><%= compra.getEditorial() %></td>
@@ -57,7 +49,7 @@
 		</table>
 
 		<div class="d-flex justify-content-center">
-			<input class="btn btn-primary" type="button" value="Agregar Compra" 
+			<input class="btn btn-primary" type="button" value="Agregar" 
 				style="color: #fff; font-weight:600"
 				onclick="window.location.href='registrarCompra.jsp'">
 		</div>
@@ -66,25 +58,31 @@
 </html>
 
 <script>
-    function filtrarTabla() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("busqueda");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("tabla");
-        tr = table.getElementsByTagName("tr");
+function filtrarTabla() {
+    var input, filter, table, th, tr, thId, tdEditorial, tdEmpleado, tdFecha, i;
+    input = document.getElementById("busqueda");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tablaCompras");
+    tr = table.getElementsByClassName("filaCompras");
 
-        for (i = 1; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1]; // Filtrar por la segunda columna (Libro)
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
+    for (i = 0; i < tr.length; i++) {
+        tdId = tr[i].getElementsByTagName("th")[0];
+        tdEditorial = tr[i].getElementsByTagName("td")[1];
+        tdEmpleado = tr[i].getElementsByTagName("td")[2];
+        tdFecha = tr[i].getElementsByTagName("td")[3];
+        if (tdId || tdEditorial || tdEmpleado || tdFecha) {
+            if (tdId.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+            	tdEditorial.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+            	tdEmpleado.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+            	tdFecha.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
             }
         }
     }
+}
+
 
     function confirmarEliminacion(idCompra) {
         if (confirm("¿Estás seguro de eliminar esta compra?")) {

@@ -21,7 +21,7 @@
     <div class="container">
         <br>
         <h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Libro</strong></h1><br>
-        <form style="margin: 0 12%" method="get" action="LibroServlet">
+        <form style="margin: 0 12%" method="get" action="LibroServlet" onsubmit="return validarCampos();">
         	<input type="hidden" name="action" value="agregar">
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -41,7 +41,6 @@
                 <div class="col-md-6">
                     <label for="idEditorial" class="form-label"><b>Editorial:</b></label>
 				    <select class="form-select" id="idEditorial" name="idEditorial">
-				        <!-- option value="0" disabled>Seleccione editorial</option-->
 				        <% try {
 				            Connection connection = MySQLConexion.getConexion();
 				            String sql = "SELECT * FROM editorial";
@@ -64,18 +63,17 @@
                 <div class="col-md-6">
                     <label for="estado" class="form-label"><b>Estado:</b></label>
                     <select class="form-select" id="estado" name="estado">
-                    <!--option value="selecione" disabled="disabled" >Seleccione</option-->
-                        <option value="Disponible" id="Disponible" name="Disponible" selected >Disponible</option>
-                        <option value="Agotado" id="Agotado" name="Agotado">Agotado</option>
+                        <option value="" disabled selected>Seleccione un estado</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="Agotado">Agotado</option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <br><input type="submit" name="enviar" id="enviar" value="Registrar Libro"
-                        class="btn btn-primary" style="font-weight: 600">
-                    <input type="reset" name="borrar" id="borrar" value="Restablecer"
-                        class="btn btn-secondary" style="font-weight: 600">
+                    <br>
+                    <input type="submit" name="enviar" id="enviar" value="Registrar" class="btn btn-primary" style="font-weight: 600">
+                    <a href="LibroServlet?listaLibros&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
                 </div>
             </div>
         </form>
@@ -83,4 +81,29 @@
 
 </body>
 <%@include file="snippet/bootstrap_fin.jsp" %>
+<script>
+    function validarCampos() {
+        var id = document.getElementById("id").value;
+        var titulo = document.getElementById("titulo").value;
+        var autor = document.getElementById("autor").value;
+        var stock = document.getElementById("stock").value;
+        var estado = document.getElementById("estado").value;
+
+        var idPattern = /^LIB\d{2}$/;
+        
+        if (id === '' || titulo === '' || autor === '' || stock === '' || estado === '') {
+            alert("Todos los campos son requeridos.");
+            location.reload();
+            return false;
+        }
+        
+        if (!idPattern.test(id)) {
+            alert("El formato de la ID no es válido. Debe seguir el formato 'LIB' seguido de dos dígitos.");
+            location.reload();
+            return false; // Evita enviar el formulario
+        }
+        
+        return true;
+    }
+</script>
 </html>

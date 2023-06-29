@@ -14,13 +14,19 @@
         <br>
         <h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Editorial</strong></h1>
         <br>
-        <form style="margin: 0 12%" method="get" action="EditorialServlet">
+        <form style="margin: 0 12%" method="get" action="EditorialServlet" onsubmit="return validarCampos();">
             <input type="hidden" name="action" value="agregar">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="id" class="form-label"><b>Id Editorial:</b></label>
                     <input type="text" class="form-control" id="id" name="id">
                 </div>
+                 <% String error = (String) request.getAttribute("error");
+			        if (error != null && !error.isEmpty()) { %>
+			            <div class="alert alert-danger" role="alert">
+			                <%= error %>
+			            </div>
+        		<% } %>
                 <div class="col-md-6">
                     <label for="nombre" class="form-label"><b>Nombre:</b></label> 
                     <input type="text" class="form-control" id="nombre" name="nombre">
@@ -50,14 +56,39 @@
                 <div class="col-md-12 text-center">
                     <br>
                     <input type="submit" name="enviar" id="enviar"
-                        value="Registrar Editorial" class="btn btn-primary"
-                        style="font-weight: 600"> <input type="reset"
-                        name="borrar" id="borrar" value="Restablecer"
-                        class="btn btn-secondary" style="font-weight: 600">
+                        value="Registrar" class="btn btn-primary"
+                        style="font-weight: 600">
+                     <a href="EditorialServlet?listaEditoriales&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>                        
                 </div>
             </div>
         </form>
     </div>
 </body>
 <%@include file="snippet/bootstrap_fin.jsp" %>
+<script>
+    function validarCampos() {
+        var id = document.getElementById("id").value;
+        var nombre = document.getElementById("nombre").value;
+        var direccion = document.getElementById("direccion").value;
+        var telefono = document.getElementById("telefono").value;
+        var email = document.getElementById("email").value;
+        var ruc = document.getElementById("ruc").value;
+
+        var idPattern = /^EDI\d{2}$/; // Expresión regular para el formato EDI seguido de dos dígitos
+
+        if (id === '' || nombre === '' || direccion === '' || telefono === '' || email === '' || ruc === '') {
+            alert("Todos los campos son requeridos.");
+            location.reload();
+            return false;
+        }
+
+        if (!idPattern.test(id)) {
+            alert("El formato de la ID no es válido. Debe seguir el formato 'EDI' seguido de dos dígitos.");      
+            location.reload();
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </html>

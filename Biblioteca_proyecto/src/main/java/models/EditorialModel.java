@@ -144,4 +144,40 @@ public class EditorialModel {
             e.printStackTrace();
         }
     }
-}
+    
+
+        /*public static boolean existeIdEditorial(String idEditorial) throws Exception {
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+            ResultSet resultSet = null;
+            boolean existe = false;
+
+            try {
+                connection = MySQLConexion.getConexion();
+                String query = "SELECT COUNT(*) AS count FROM Editorial WHERE idEditorial = ?";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, idEditorial);
+                resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    int count = resultSet.getInt("count");
+                    existe = (count > 0);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+
+            return existe;
+        }*/
+    }
+

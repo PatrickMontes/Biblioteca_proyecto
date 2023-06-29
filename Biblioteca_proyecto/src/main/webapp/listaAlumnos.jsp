@@ -23,7 +23,7 @@
 
 		<table class="table table-striped" id="tablaAlumnos">
 			<tr>
-				<th scope="col">Id</th>
+				<th scope="col">Código</th>
 				<th scope="col">Nombre</th>
 				<th scope="col">Apellido</th>
 				<th scope="col">Direccion</th>
@@ -48,7 +48,7 @@
 		</table>
 
 		<div class="d-flex justify-content-center">
-			<input class="btn btn-primary" type="button" value="Agregar Alumno"
+			<input class="btn btn-primary" type="button" value="Agregar"
 				style="color: #fff; font-weight: 600"
 				onclick="window.location.href='registrarAlumno.jsp'">
 		</div>

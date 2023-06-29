@@ -101,12 +101,13 @@
                     <input type="number" class="form-control" id="cantidad" name="cantidad" value="${ compra.cantidad }">
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-12">
-<input type="submit" name="enviar" id="enviar" value="Editar Compra" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
-                    <a href="" class="btn btn-secondary">Cancelar</a>
-                </div>
-            </div>
+            <div class="row">
+				<div class="col-md-12 text-center">
+					<br>
+					<input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
+					<a href="CompraLibroServlet?listaCompras&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
+				</div>
+			</div>
         </form>
     </div>
 
