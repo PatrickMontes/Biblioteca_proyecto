@@ -44,7 +44,7 @@
 				<ul class="navbar-nav me-auto" style="font-size: 20px">
 					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="LibroServlet?listaLibros&action=listar">Libros</a></li>
 					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="EmpleadoServlet?ListaEmpleados&action=listar">Empleados</a></li>
-					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="listaPrestamos.jsp">Préstamos</a></li>
+					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="PrestamoServlet?ListaPrestamos&action=listar">Préstamos</a></li>
 					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="AlumnoServlet?listaAlumnos&action=listar">Alumnos</a></li>
 					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="EditorialServlet?listaEditoriales&action=listar">Editorial</a></li>
 					<li class="nav-item" style="margin: 0 0.5rem"><a class="nav-link" href="CompraLibroServlet?listaCompras&action=listar">Compras</a></li>

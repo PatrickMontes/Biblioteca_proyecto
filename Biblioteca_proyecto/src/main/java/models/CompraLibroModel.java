@@ -15,7 +15,7 @@ import util.MySQLConexion;
 
 public class CompraLibroModel {
 
-    public static List<CompraLibro> obtenerDetallesCompra() {
+    public static List<CompraLibro> listarCompras() {
         List<CompraLibro> compras = new ArrayList<>();
 
         try (Connection connection = MySQLConexion.getConexion()) {
@@ -25,13 +25,13 @@ public class CompraLibroModel {
                     while (resultSet.next()) {
                         String idCompra = resultSet.getString("idCompra");
                         String titulo = resultSet.getString("titulo");
-                        String nombreEditorial = resultSet.getString("nombreEditorial");
+                        String editorial = resultSet.getString("editorial");
                         String empleado = resultSet.getString("empleado");
                         LocalDate fecCompra = resultSet.getDate("fecCompra").toLocalDate();
                         BigDecimal precio = resultSet.getBigDecimal("precio");
                         int cantidad = resultSet.getInt("cantidad");
 
-                        CompraLibro compra = new CompraLibro(idCompra, fecCompra, precio, cantidad, titulo, nombreEditorial, empleado);
+                        CompraLibro compra = new CompraLibro(idCompra, fecCompra, precio, cantidad, titulo, editorial, empleado);
                         compras.add(compra);
                     }
                 }
@@ -69,7 +69,7 @@ public class CompraLibroModel {
     public static CompraLibro mostrarCompraLibro(String idCompra) {
         CompraLibro compra = null;
         try (Connection connection = MySQLConexion.getConexion()) {
-            String sql = "SELECT CL.idCompra, L.titulo, ED.nombre AS nombreEditorial, CONCAT(E.nombre, ' ', E.apellido) AS empleado, CL.fecCompra, CL.precio, CL.cantidad "
+            String sql = "SELECT CL.idCompra, L.titulo, ED.nombre AS editorial, CONCAT(E.nombre, ' ', E.apellido) AS empleado, CL.fecCompra, CL.precio, CL.cantidad "
                     + "FROM CompraLibro CL "
                     + "INNER JOIN Libro L ON CL.idLibro = L.idLibro "
                     + "INNER JOIN Editorial ED ON CL.idEditorial = ED.idEditorial "
@@ -81,13 +81,13 @@ public class CompraLibroModel {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String titulo = resultSet.getString("titulo");
-                        String nombreEditorial = resultSet.getString("nombreEditorial");
+                        String editorial = resultSet.getString("editorial");
                         String empleado = resultSet.getString("empleado");
                         LocalDate fecCompra = resultSet.getDate("fecCompra").toLocalDate();
                         BigDecimal precio = resultSet.getBigDecimal("precio");
                         int cantidad = resultSet.getInt("cantidad");
 
-                        compra = new CompraLibro(idCompra, fecCompra, precio, cantidad, titulo, nombreEditorial, empleado);
+                        compra = new CompraLibro(idCompra, fecCompra, precio, cantidad, titulo, editorial, empleado);
                     }
                 }
             }
@@ -100,28 +100,29 @@ public class CompraLibroModel {
 
     public static void actualizarCompraLibro(CompraLibro compra) throws Exception {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        CallableStatement callableStatement = null;
         try {
             connection = MySQLConexion.getConexion();
-            String query = "UPDATE CompraLibro SET idLibro = ?, idEditorial = ?, idEmpleado = ?, fecCompra = ?, precio = ?, cantidad = ? WHERE idCompra = ?";
-            preparedStatement = connection.prepareStatement(query);
+            String query = "{CALL actualizarCompraLibro(?, ?, ?, ?, ?, ?, ?)}";
+            callableStatement = connection.prepareCall(query);
 
-            preparedStatement.setString(1, compra.getIdLibro());
-            preparedStatement.setString(2, compra.getIdEditorial());
-            preparedStatement.setString(3, compra.getIdEmpleado());
-            preparedStatement.setDate(4, java.sql.Date.valueOf(compra.getFecCompra()));
-            preparedStatement.setBigDecimal(5, compra.getPrecio());
-            preparedStatement.setInt(6, compra.getCantidad());
-            preparedStatement.setString(7, compra.getIdCompra());
+            callableStatement.setString(1, compra.getIdLibro());
+            callableStatement.setString(2, compra.getIdEditorial());
+            callableStatement.setString(3, compra.getIdEmpleado());
+            callableStatement.setDate(4, java.sql.Date.valueOf(compra.getFecCompra()));
+            callableStatement.setBigDecimal(5, compra.getPrecio());
+            callableStatement.setInt(6, compra.getCantidad());
+            callableStatement.setString(7, compra.getIdCompra());
 
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
+            callableStatement.executeUpdate();
+            callableStatement.close();
             connection.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public static void eliminarCompraLibro(String idCompra) {
         Connection connection = null;

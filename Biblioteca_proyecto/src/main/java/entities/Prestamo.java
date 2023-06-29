@@ -4,25 +4,51 @@ import java.time.LocalDate;
 
 public class Prestamo {
 	public String idPrestamo;
-	public String titulo;
+	public String idLibro;
     public LocalDate fecPrestamo;
     public LocalDate fecDevolucion;
 	public String idAlumno;
 	public String estDevolucion;
+	public String libro;
+	public String alumno;
 	
-	public Prestamo(String idPrestamo, String titulo, LocalDate fecPrestamo, LocalDate fecDevolucion, String idAlumno,
+	public Prestamo() {
+		super();
+	}
+
+	public Prestamo(String idPrestamo, String idLibro, LocalDate fecPrestamo, LocalDate fecDevolucion, String idAlumno,
+			String estDevolucion, String libro, String alumno) {
+		super();
+		this.idPrestamo = idPrestamo;
+		this.idLibro = idLibro;
+		this.fecPrestamo = fecPrestamo;
+		this.fecDevolucion = fecDevolucion;
+		this.idAlumno = idAlumno;
+		this.estDevolucion = estDevolucion;
+		this.libro = libro;
+		this.alumno = alumno;
+	}
+
+	public Prestamo(String idPrestamo, String idLibro, LocalDate fecPrestamo, LocalDate fecDevolucion, String idAlumno,
 			String estDevolucion) {
 		super();
 		this.idPrestamo = idPrestamo;
-		this.titulo = titulo;
+		this.idLibro = idLibro;
 		this.fecPrestamo = fecPrestamo;
 		this.fecDevolucion = fecDevolucion;
 		this.idAlumno = idAlumno;
 		this.estDevolucion = estDevolucion;
 	}
 
-	public Prestamo() {
+	public Prestamo(String idPrestamo, LocalDate fecPrestamo, LocalDate fecDevolucion, String estDevolucion,
+			String libro, String alumno) {
 		super();
+		this.idPrestamo = idPrestamo;
+		this.fecPrestamo = fecPrestamo;
+		this.fecDevolucion = fecDevolucion;
+		this.estDevolucion = estDevolucion;
+		this.libro = libro;
+		this.alumno = alumno;
 	}
 
 	public String getIdPrestamo() {
@@ -33,12 +59,12 @@ public class Prestamo {
 		this.idPrestamo = idPrestamo;
 	}
 
-	public String getTitulo() {
-		return titulo;
+	public String getIdLibro() {
+		return idLibro;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setIdLibro(String idLibro) {
+		this.idLibro = idLibro;
 	}
 
 	public LocalDate getFecPrestamo() {
@@ -72,7 +98,22 @@ public class Prestamo {
 	public void setEstDevolucion(String estDevolucion) {
 		this.estDevolucion = estDevolucion;
 	}
-	
+
+	public String getLibro() {
+		return libro;
+	}
+
+	public void setLibro(String libro) {
+		this.libro = libro;
+	}
+
+	public String getAlumno() {
+		return alumno;
+	}
+
+	public void setAlumno(String alumno) {
+		this.alumno = alumno;
+	}
 	
 	
 }

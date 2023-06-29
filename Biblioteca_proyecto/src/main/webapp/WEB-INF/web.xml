@@ -79,4 +79,14 @@
     <servlet-name>CompraLibroServlet</servlet-name>
     <url-pattern>/CompraLibroServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PrestamoServlet</display-name>
+    <servlet-name>PrestamoServlet</servlet-name>
+    <servlet-class>servlets.PrestamoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PrestamoServlet</servlet-name>
+    <url-pattern>/PrestamoServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

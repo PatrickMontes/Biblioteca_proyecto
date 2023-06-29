@@ -46,29 +46,15 @@ CREATE TABLE Libro (
   foreign key (idEditorial) REFERENCES Editorial(idEditorial)
 );
 
-DELIMITER //
-
-CREATE PROCEDURE SP_MostrarLibros()
-BEGIN
-    SELECT l.idLibro, l.titulo, l.autor, e.nombre AS editorial, l.stock, l.estado
-    FROM Libro l
-    INNER JOIN Editorial e ON l.idEditorial = e.idEditorial
-    order by l.idLibro;
-END //
-
-DELIMITER ;
-
-call sp_mostrarlibros();
-
-
 CREATE TABLE Prestamo (
   idPrestamo char(5) PRIMARY KEY,
-  titulo varchar(50),
+  idLibro char(5),
   fecPrestamo date,
   fecDevolucion date,
   idAlumno char(5),
   estDevolucion varchar(10) NOT NULL CHECK (estDevolucion IN ('Prestado', 'Devuelto')),
-  foreign key (idAlumno) REFERENCES Alumno(idAlumno)
+  foreign key (idAlumno) REFERENCES Alumno(idAlumno),
+  foreign key (idLibro) REFERENCES Libro(idLibro)
 );
 
 CREATE TABLE DetallePrestamo (
@@ -94,15 +80,57 @@ CREATE TABLE CompraLibro (
 );
 
 DELIMITER //
+CREATE PROCEDURE SP_MostrarLibros()
+BEGIN
+    SELECT l.idLibro, l.titulo, l.autor, e.nombre AS editorial, l.stock, l.estado
+    FROM Libro l
+    INNER JOIN Editorial e ON l.idEditorial = e.idEditorial
+    order by l.idLibro;
+END //
+DELIMITER ;
+
+call sp_mostrarlibros();
+
+DELIMITER //
 CREATE PROCEDURE ObtenerDetallesCompra()
 BEGIN
-    SELECT CL.idCompra, L.titulo, ED.nombre AS nombreEditorial, CONCAT(E.nombre, ' ', E.apellido) AS empleado, CL.fecCompra, CL.precio, CL.cantidad
+    SELECT CL.idCompra, L.titulo, ED.nombre AS editorial, CONCAT(E.nombre, ' ', E.apellido) AS empleado, CL.fecCompra, CL.precio, CL.cantidad
     FROM CompraLibro CL
     INNER JOIN Libro L ON CL.idLibro = L.idLibro
     INNER JOIN Editorial ED ON CL.idEditorial = ED.idEditorial
     INNER JOIN Empleado E ON CL.idEmpleado = E.idEmpleado;
 END //
 
+DELIMITER //
+CREATE PROCEDURE actualizarCompraLibro (
+    IN p_idLibro CHAR(5),
+    IN p_idEditorial CHAR(5),
+    IN p_idEmpleado CHAR(5),
+    IN p_fecCompra DATE,
+    IN p_precio DECIMAL(10,2),
+    IN p_cantidad INT,
+    IN p_idCompra CHAR(5)
+)
+BEGIN
+    UPDATE CompraLibro
+    SET idLibro = p_idLibro,
+        idEditorial = p_idEditorial,
+        idEmpleado = p_idEmpleado,
+        fecCompra = p_fecCompra,
+        precio = p_precio,
+        cantidad = p_cantidad
+    WHERE idCompra = p_idCompra;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ListarPrestamos()
+BEGIN
+    SELECT p.idPrestamo, l.titulo, p.fecPrestamo, p.fecDevolucion, CONCAT(a.nombre, ' ', a.apellido) AS alumno, p.estDevolucion
+    FROM Prestamo p
+    INNER JOIN Libro l ON p.idLibro = l.idLibro
+    INNER JOIN Alumno a ON p.idAlumno = a.idAlumno;
+END //
 
 INSERT INTO Editorial (idEditorial, nombre, direccion, telefono, email, ruc)
 VALUES 	('EDI01', 'Editorial ABC', 'Calle Principal 123', '123456789', 'info@editorialabc.com', '12345678901'),
@@ -124,10 +152,10 @@ VALUES 	('LIB01', 'El Gran Gatsby', 'F. Scott Fitzgerald', 'EDI01', 10, 'Disponi
 		('LIB02', 'Cien años de soledad', 'Gabriel García Márquez', 'EDI02', 5, 'Disponible'),
         ('LIB03', '1984', 'George Orwell', 'EDI03', 8, 'Disponible');
 
-INSERT INTO Prestamo (idPrestamo, titulo, fecPrestamo, fecDevolucion, idAlumno, estDevolucion)
-VALUES 	('PRE01', 'El Gran Gatsby', '2023-05-01', '2023-05-08', 'ALU01', 'Devuelto'),
-		('PRE02', 'Cien años de soledad', '2023-06-01', '2023-06-08', 'ALU02', 'Prestado'),
-        ('PRE03', '1984', '2023-06-05', '2023-06-12', 'ALU03', 'Prestado');
+INSERT INTO Prestamo (idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion)
+VALUES 	('PRE01', 'LIB01', '2023-05-01', '2023-05-08', 'ALU01', 'Devuelto'),
+		('PRE02', 'LIB02', '2023-06-01', '2023-06-08', 'ALU02', 'Prestado'),
+        ('PRE03', 'LIB03', '2023-06-05', '2023-06-12', 'ALU03', 'Prestado');
 
 INSERT INTO DetallePrestamo (idPrestamo, idEmpleado, idLibro)
 VALUES 	('PRE01', 'EMP01', 'LIB01'),

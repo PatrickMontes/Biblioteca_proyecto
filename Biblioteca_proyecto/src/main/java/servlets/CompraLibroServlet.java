@@ -64,7 +64,7 @@ public class CompraLibroServlet extends HttpServlet {
 
     private void listarCompras(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<CompraLibro> compras = CompraLibroModel.obtenerDetallesCompra();
+            List<CompraLibro> compras = CompraLibroModel.listarCompras();
             request.setAttribute("compras", compras);
             request.getRequestDispatcher("listaCompras.jsp").forward(request, response);
         } catch (Exception e) {
@@ -73,12 +73,32 @@ public class CompraLibroServlet extends HttpServlet {
     }
 
     private void agregarCompra(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String idCompra = request.getParameter("idCompra");
+        String idCompra = request.getParameter("id");
         String idLibro = request.getParameter("idLibro");
         String idEditorial = request.getParameter("idEditorial");
         String idEmpleado = request.getParameter("idEmpleado");
-        LocalDate fecCompra = LocalDate.parse(request.getParameter("fecCompra"));
-        BigDecimal precio = new BigDecimal(request.getParameter("precio"));
+        String fechaCompraStr = request.getParameter("fecCompra");
+        LocalDate fecCompra = null;
+
+        if (fechaCompraStr != null && !fechaCompraStr.isEmpty()) {
+            fecCompra = LocalDate.parse(fechaCompraStr);
+        } else {
+            // Manejar el caso cuando el campo de fecha está vacío o nulo
+            // Por ejemplo, asignar un valor predeterminado o mostrar un mensaje de error
+            // Aquí se asigna la fecha actual como valor predeterminado:
+            fecCompra = LocalDate.now();
+        }
+
+
+        String precioStr = request.getParameter("precio");
+        BigDecimal precio = null;
+
+        if (precioStr != null && !precioStr.isEmpty()) {
+            precio = new BigDecimal(precioStr);
+        } else {
+            // Manejar el caso cuando el campo de precio está vacío o nulo
+        }
+
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
         CompraLibro compra = new CompraLibro(idCompra, idLibro, idEditorial, idEmpleado, fecCompra, precio, cantidad);
@@ -88,7 +108,7 @@ public class CompraLibroServlet extends HttpServlet {
     }
 
     private void mostrarCompra(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idCompra = request.getParameter("idCompra");
+        String idCompra = request.getParameter("id");
         CompraLibro compra = CompraLibroModel.mostrarCompraLibro(idCompra);
 
         request.setAttribute("compra", compra);
@@ -96,21 +116,44 @@ public class CompraLibroServlet extends HttpServlet {
     }
 
     private void actualizarCompra(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String idCompra = request.getParameter("idCompra");
+        String idCompra = request.getParameter("id");
         String idLibro = request.getParameter("idLibro");
         String idEditorial = request.getParameter("idEditorial");
         String idEmpleado = request.getParameter("idEmpleado");
-        LocalDate fecCompra = LocalDate.parse(request.getParameter("fecCompra"));
-        BigDecimal precio = new BigDecimal(request.getParameter("precio"));
+        String fechaCompraStr = request.getParameter("fecCompra");
+        LocalDate fecCompra = null;
+
+        if (fechaCompraStr != null && !fechaCompraStr.isEmpty()) {
+            fecCompra = LocalDate.parse(fechaCompraStr);
+        } else {
+            fecCompra = LocalDate.now();
+        }
+
+        String precioStr = request.getParameter("precio");
+        BigDecimal precio = null;
+
+        if (precioStr != null && !precioStr.isEmpty()) {
+            precio = new BigDecimal(precioStr);
+        }
+
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+
+        System.out.println("idCompra: " + idCompra);
+        System.out.println("idLibro: " + idLibro);
+        System.out.println("idEditorial: " + idEditorial);
+        System.out.println("idEmpleado: " + idEmpleado);
+        System.out.println("fecCompra: " + fecCompra);
+        System.out.println("precio: " + precio);
+        System.out.println("cantidad: " + cantidad);
 
         CompraLibro compra = new CompraLibro(idCompra, idLibro, idEditorial, idEmpleado, fecCompra, precio, cantidad);
         CompraLibroModel.actualizarCompraLibro(compra);
         listarCompras(request, response);
     }
 
+
     private void eliminarCompra(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idCompra = request.getParameter("idCompra");
+        String idCompra = request.getParameter("id");
 
         CompraLibroModel.eliminarCompraLibro(idCompra);
         listarCompras(request, response);

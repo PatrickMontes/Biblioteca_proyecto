@@ -23,13 +23,13 @@
     <div class="container">
         <br>
         <h1 class="text-center" style="text-transform: uppercase;"><strong>Editar Compra</strong></h1><br>
-        <form style="margin: 0 12%" method="get" action="CompraLibroServlet">
+        <form style="margin: 0 12%" method="get" action="CompraLibroServlet?action=actualizar">
             <input type="hidden" name="action" value="actualizar">
             <input type="hidden" name="id" value="${ compra.idCompra }">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="idCompra" class="form-label"><b>Id Compra:</b></label>
-                    <input type="text" class="form-control" id="idCompra" name="idCompra" disabled value="${ compra.idCompra }" >         
+                    <label for="id" class="form-label"><b>Id Compra:</b></label>
+                    <input type="text" class="form-control" id="id" name="id" disabled value="${ compra.idCompra }" >         
                 </div>
                 <div class="col-md-6">
                     <label for="libro" class="form-label"><b>Libro:</b></label>
@@ -51,8 +51,8 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="editorial" class="form-label"><b>Editorial:</b></label>
-                    <select class="form-select" id="editorial" name="editorial">
+                    <label for="idEditorial" class="form-label"><b>Editorial:</b></label>
+                    <select class="form-select" id="idEditorial" name="idEditorial">
                       <option value="${compra.idEditorial }" > ${ compra.editorial }</option>
 				        <% try {
 				            Connection connection = MySQLConexion.getConexion();
@@ -68,8 +68,8 @@
 				    </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="empleado" class="form-label"><b>Empleado:</b></label>
-                    <select class="form-select" id="empleado" name="empleado">
+                    <label for="idEmpleado" class="form-label"><b>Empleado:</b></label>
+                    <select class="form-select" id="idEmpleado" name="idEmpleado">
                        <option value="${compra.idEmpleado }" > ${ compra.empleado }</option>
 				        <% try {
 				            Connection connection = MySQLConexion.getConexion();
@@ -87,23 +87,23 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="fecha" class="form-label"><b>Fecha:</b></label>
-                    <input type="date" class="form-control" id="fecha" name="fecha" value="${ compra.fecCompra }">
+                    <label for="fecCompra" class="form-label"><b>Fecha:</b></label>
+                    <input type="date" class="form-control" id="fecCompra" name="fecCompra" value="${ compra.fecCompra }">
                 </div>
                 <div class="col-md-6">
+                    <label for="precio" class="form-label"><b>Precio:</b></label>
+                    <input type="number" step="0.01" class="form-control" id="precio" name="precio" value="${ compra.precio }">
+                </div>             
+            </div>
+            <div class="row mb-3">
+                  <div class="col-md-6">
                     <label for="cantidad" class="form-label"><b>Cantidad:</b></label>
                     <input type="number" class="form-control" id="cantidad" name="cantidad" value="${ compra.cantidad }">
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="precio" class="form-label"><b>Precio:</b></label>
-                    <input type="number" step="0.01" class="form-control" id="precio" name="precio" value="${ compra.precio }">
-                </div>
-            </div>
-            <div class="row mb-3">
                 <div class="col-md-12">
-                    <input type="submit" class="btn btn-primary" value="Guardar">
+<input type="submit" name="enviar" id="enviar" value="Editar Compra" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
                     <a href="" class="btn btn-secondary">Cancelar</a>
                 </div>
             </div>
@@ -111,6 +111,11 @@
     </div>
 
     <%@include file="snippet/bootstrap_fin.jsp" %>
+    <script>
+	function confirmarEdicion() {
+		return confirm("¿Estás seguro de que deseas guaradr los cambios?");
+	}
+</script>
 
 </body>
 </html>

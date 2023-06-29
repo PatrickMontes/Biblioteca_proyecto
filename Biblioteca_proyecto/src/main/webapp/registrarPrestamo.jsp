@@ -2,18 +2,16 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="util.MySQLConexion"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="entities.CompraLibro"%>
 <%@page import="entities.Libro"%>
-<%@page import="entities.Editorial"%>
-<%@page import="entities.Empleado"%>
+<%@page import="entities.Alumno"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Registrar Compra</title>
+<title>Registrar Préstamo</title>
     <%@include file="snippet/bootstrap_ini.jsp" %>
 </head>
 <body>
@@ -22,12 +20,12 @@
     
     <div class="container">
         <br>
-        <h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Compra</strong></h1><br>
-        <form style="margin: 0 12%" method="post" action="CompraLibroServlet?action=agregar">
+        <h1 class="text-center" style="text-transform: uppercase;"><strong>Registrar Préstamo</strong></h1><br>
+        <form style="margin: 0 12%" method="post" action="PrestamoServlet?action=agregar">
             <input type="hidden" name="action" value="agregar">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="id" class="form-label"><b>Id Compra:</b></label>
+                    <label for="id" class="form-label"><b>Id Préstamo:</b></label>
                     <input type="text" class="form-control" id="id" name="id">
                 </div>
                 <div class="col-md-6">
@@ -49,15 +47,15 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="idEditorial" class="form-label"><b>Editorial:</b></label>
-                    <select class="form-select" id="idEditorial" name="idEditorial">
+                    <label for="idAlumno" class="form-label"><b>Alumno:</b></label>
+                    <select class="form-select" id="idAlumno" name="idAlumno">
                         <% try {
 				            Connection connection = MySQLConexion.getConexion();
-				            String sql = "SELECT * FROM Editorial";
+				            String sql = "SELECT * FROM Alumno";
 				            Statement statement = connection.createStatement();
 				            ResultSet resultSet = statement.executeQuery(sql);
 				            while (resultSet.next()) { %>
-				                <option value="<%= resultSet.getString("idEditorial") %>"><%= resultSet.getString("nombre") %></option>
+				                <option value="<%= resultSet.getString("idAlumno") %>"><%= resultSet.getString("nombre") %></option>
 				            <% }
 				        } catch (Exception e) {
 				            e.printStackTrace();
@@ -65,41 +63,26 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="idEmpleado" class="form-label"><b>Empleado:</b></label>
-                    <select class="form-select" id="idEmpleado" name="idEmpleado">
-                        <% try {
-				            Connection connection = MySQLConexion.getConexion();
-				            String sql = "SELECT * FROM Empleado";
-				            Statement statement = connection.createStatement();
-				            ResultSet resultSet = statement.executeQuery(sql);
-				            while (resultSet.next()) { %>
-				                <option value="<%= resultSet.getString("idEmpleado") %>"><%= resultSet.getString("nombre") %></option>
-				            <% }
-				        } catch (Exception e) {
-				            e.printStackTrace();
-				        } %>
+                    <label for="estDevolucion" class="form-label"><b>Estado de Devolución:</b></label>
+                    <select class="form-select" id="estDevolucion" name="estDevolucion">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Devuelto">Devuelto</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="fecCompra" class="form-label"><b>Fecha:</b></label>
-                    <input type="date" class="form-control" id="fecCompra" name="fecCompra">
+                    <label for="fecPrestamo" class="form-label"><b>Fecha de Préstamo:</b></label>
+                    <input type="date" class="form-control" id="fecPrestamo" name="fecPrestamo">
                 </div>
                 <div class="col-md-6">
-                    <label for="precio" class="form-label"><b>Precio:</b></label>
-                    <input type="number" step="0.01" class="form-control" id="precio" name="precio">
+                    <label for="fecDevolucion" class="form-label"><b>Fecha de Devolución:</b></label>
+                    <input type="date" class="form-control" id="fecDevolucion" name="fecDevolucion">
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="cantidad" class="form-label"><b>Cantidad:</b></label>
-                    <input type="number" class="form-control" id="cantidad" name="cantidad">
-                </div>
-            </div>
-            <div class="row mb-3">
+             <div class="row mb-3">
                 <div class="col-md-12">
-                    <input type="submit" name="enviar" id="enviar" value="Registrar Compra"
+                    <input type="submit" name="enviar" id="enviar" value="Registrar Prestamo"
                         class="btn btn-primary" style="font-weight: 600">
                     <a href="" class="btn btn-secondary">Cancelar</a>
                 </div>
@@ -108,6 +91,5 @@
     </div>
 
     <%@include file="snippet/bootstrap_fin.jsp" %>
-
 </body>
 </html>
