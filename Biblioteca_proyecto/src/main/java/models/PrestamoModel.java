@@ -41,27 +41,50 @@ public class PrestamoModel {
     }
     
     public static void agregarPrestamo(Prestamo prestamo) throws Exception {
-    	 Connection connection = null;
-         PreparedStatement preparedStatement = null;
-         try {
-             connection = MySQLConexion.getConexion();
-             String query = "INSERT INTO Prestamo (idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion) VALUES (?, ?, ?, ?, ?, ?)";             
-             preparedStatement = connection.prepareStatement(query);
-
-             preparedStatement.setString(1, prestamo.getIdPrestamo());
-             preparedStatement.setString(2, prestamo.getIdLibro());
-             preparedStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
-             preparedStatement.setDate(4, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
-             preparedStatement.setString(5, prestamo.getIdAlumno());
-             preparedStatement.setString(6, prestamo.getEstDevolucion());
-
-             preparedStatement.executeUpdate();
-             preparedStatement.close();
-             connection.close();
+    	 try (Connection connection = MySQLConexion.getConexion()) {
+             // Verificar si hay suficiente stock disponible
+             String verificarStockSql = "SELECT stock FROM libro WHERE idLibro = ?";
+             try (PreparedStatement verificarStockStatement = connection.prepareStatement(verificarStockSql)) {
+                 verificarStockStatement.setString(1, prestamo.getIdLibro());
+                 try (ResultSet resultSet = verificarStockStatement.executeQuery()) {
+                     if (resultSet.next()) {
+                         int stock = resultSet.getInt("stock");
+                         if (stock > 0) {
+                             // Disminuir el stock en una unidad
+                             int nuevoStock = stock - 1;
+                             // Actualizar el stock del libro en la base de datos
+                             String actualizarStockSql = "UPDATE libro SET stock = ? WHERE idLibro = ?";
+                             try (PreparedStatement actualizarStockStatement = connection.prepareStatement(actualizarStockSql)) {
+                                 actualizarStockStatement.setInt(1, nuevoStock);
+                                 actualizarStockStatement.setString(2, prestamo.getIdLibro());
+                                 actualizarStockStatement.executeUpdate();
+                             }
+                             // Realizar el préstamo
+                             String agregarPrestamoSql = "INSERT INTO Prestamo (idPrestamo, idLibro, fecPrestamo, fecDevolucion, idAlumno, estDevolucion) VALUES (?, ?, ?, ?, ?, ?)";
+                             try (PreparedStatement agregarPrestamoStatement = connection.prepareStatement(agregarPrestamoSql)) {
+                                 agregarPrestamoStatement.setString(1, prestamo.getIdPrestamo());
+                                 agregarPrestamoStatement.setString(2, prestamo.getIdLibro());
+                                 agregarPrestamoStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
+                                 agregarPrestamoStatement.setDate(4, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
+                                 agregarPrestamoStatement.setString(5, prestamo.getIdAlumno());
+                                 agregarPrestamoStatement.setString(6, prestamo.getEstDevolucion());
+                                 agregarPrestamoStatement.executeUpdate();
+                             }
+                         } else {
+                             // No hay suficiente stock disponible
+                             // Manejar la situación de acuerdo a tus necesidades
+                         }
+                     } else {
+                         // El libro no fue encontrado
+                         // Manejar la situación de acuerdo a tus necesidades
+                     }
+                 }
+             }
          } catch (SQLException e) {
              e.printStackTrace();
          }
-    }
+     }
+    
    
     
     public static Prestamo mostrarPrestamoLibro(String idPrestamo) {
@@ -96,23 +119,27 @@ public class PrestamoModel {
 
 
     public static void actualizarPrestamoLibro(Prestamo prestamo) throws Exception {
-    	Connection connection = null;
-        CallableStatement callableStatement = null;
-        try {
-            connection = MySQLConexion.getConexion();
+    	try (Connection connection = MySQLConexion.getConexion()) {
             String query = "UPDATE Prestamo SET idLibro = ?, fecPrestamo = ?, fecDevolucion = ?, idAlumno = ?, estDevolucion = ? WHERE idPrestamo = ?";
-            callableStatement = connection.prepareCall(query);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, prestamo.getIdLibro());
+                preparedStatement.setDate(2, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
+                preparedStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
+                preparedStatement.setString(4, prestamo.getIdAlumno());
+                preparedStatement.setString(5, prestamo.getEstDevolucion());
+                preparedStatement.setString(6, prestamo.getIdPrestamo());
 
-            callableStatement.setString(1, prestamo.getIdLibro());
-            callableStatement.setDate(2, java.sql.Date.valueOf(prestamo.getFecPrestamo()));
-            callableStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecDevolucion()));
-            callableStatement.setString(4, prestamo.getIdAlumno());
-            callableStatement.setString(5, prestamo.getEstDevolucion());
-            callableStatement.setString(6, prestamo.getIdPrestamo());
+                preparedStatement.executeUpdate();
+            }
 
-            callableStatement.executeUpdate();
-            callableStatement.close();
-            connection.close();
+            // Aumentar el stock del libro en una unidad si el estado del préstamo es "Devuelto"
+            if (prestamo.getEstDevolucion().equals("Devuelto")) {
+                String aumentarStockSql = "UPDATE libro SET stock = stock + 1 WHERE idLibro = ?";
+                try (PreparedStatement aumentarStockStatement = connection.prepareStatement(aumentarStockSql)) {
+                    aumentarStockStatement.setString(1, prestamo.getIdLibro());
+                    aumentarStockStatement.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
