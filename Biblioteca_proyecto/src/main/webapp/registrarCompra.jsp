@@ -111,6 +111,7 @@
 
     <%@include file="snippet/bootstrap_fin.jsp" %>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
     <script>
         function validarCampos() {
             var id = document.getElementById("id").value;
@@ -120,21 +121,19 @@
             var fecCompra = document.getElementById("fecCompra").value;
             var precio = document.getElementById("precio").value;
             var cantidad = document.getElementById("cantidad").value;
-            
+
             var idPattern = /^COM\d{2}$/;
-            
+
             if (id === '' || idLibro === '' || idEditorial === '' || idEmpleado === '' || fecCompra === '' || precio === '' || cantidad === '') {
-                alert("Todos los campos son requeridos.");
-                location.reload(); // Recarga la página
+                swal("Error", "Todos los campos son requeridos.", "error");
                 return false; // Evita enviar el formulario
             }
-            
+
             if (!idPattern.test(id)) {
-                alert("El formato de la ID no es válido. Debe seguir el formato 'COM' seguido de dos dígitos.");
-                location.reload();
+                swal("Error", "El formato de la ID no es válido.", "error");
                 return false; // Evita enviar el formulario
             }
-            
+
             return true; // Envía el formulario si todos los campos están llenos
         }
     </script>

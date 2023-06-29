@@ -60,9 +60,19 @@
 <%@include file="snippet/bootstrap_fin.jsp" %>
 <script>
 function confirmarEliminacion(id) {
-    if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
-        window.location.href = "AlumnoServlet?action=eliminar&id=" + id;
-    }
+    swal({
+        title: "¿Seguro?",
+        text: "Una vez eliminado, no podrás recuperar este registro",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((result) => {
+        if (result) {
+            window.location.href = "AlumnoServlet?action=eliminar&id=" + id;
+        } else {
+            swal("El registro no ha sido eliminado");
+        }
+    });
 }
 
 function filtrarTabla() {
@@ -88,5 +98,6 @@ function filtrarTabla() {
     }
 }
 </script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

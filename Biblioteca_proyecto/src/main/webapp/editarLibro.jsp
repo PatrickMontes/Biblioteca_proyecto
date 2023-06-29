@@ -12,35 +12,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Registrar Editorial</title>
-	<%@include file="snippet/bootstrap_ini.jsp" %>
+    <%@include file="snippet/bootstrap_ini.jsp" %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css"> 
 </head>
 <body>
 
-	<%@ include file="snippet/nav_bar.jsp"%>
-	
+    <%@ include file="snippet/nav_bar.jsp"%>
+    
     <div class="container">
         <br>
         <h1 class="text-center" style="text-transform: uppercase;"><strong>Editar Libro</strong></h1><br>
-		<form method="get" action="LibroServlet" style="margin: 0 12%">
-			<input type="hidden" name="action" value="actualizar">
-			<input type="hidden" name="id" value="${ libro.idLibro }">
-			<div class="row mb-3">
-				<div class="col-md-6">
-					<label for="id" class="form-label"><b>Id Libro:</b></label> <input
-						type="text" class="form-control" id="id" name="id" disabled
-						value="${ libro.idLibro }">
-				</div>
-				<div class="col-md-6">
-					<label for="titulo" class="form-label"><b>Titulo:</b></label> 
-					<input type="text" class="form-control" id="titulo" name="titulo" value="${ libro.titulo }">
-				</div>
-			</div>
+        <form method="get" action="LibroServlet" style="margin: 0 12%">
+            <input type="hidden" name="action" value="actualizar">
+            <input type="hidden" name="id" value="${ libro.idLibro }">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="id" class="form-label"><b>Id Libro:</b></label> 
+                    <input type="text" class="form-control" id="id" name="id" disabled
+                        value="${ libro.idLibro }">
+                </div>
+                <div class="col-md-6">
+                    <label for="titulo" class="form-label"><b>Titulo:</b></label> 
+                    <input type="text" class="form-control" id="titulo" name="titulo" value="${ libro.titulo }">
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="autor" class="form-label"><b>Autor:</b></label>
                     <input type="text" class="form-control" id="autor" name="autor" value="${ libro.autor }">
                 </div>
-                <div class="col-md-6">
+             <div class="col-md-6">
                     <label for="idEditorial" class="form-label"><b>Editorial:</b></label>
 				    <select class="form-select" id="idEditorial" name="idEditorial">
 				        <option value="${libro.idEditorial }" > ${ libro.editorial }</option>
@@ -63,7 +65,7 @@
                     <label for="stock" class="form-label"><b>Stock:</b></label>
                     <input type="number" class="form-control" id="stock" name="stock" value="${ libro.stock }">
                 </div>
-                <div class="col-md-6">
+                    <div class="col-md-6">
                     <label for="estado" class="form-label"><b>Estado:</b></label>
                     <select class="form-select" id="estado" name="estado">
                     <option value="${ libro.estado }" selected > ${ libro.estado }</option>
@@ -72,21 +74,35 @@
                     </select>
                 </div>
             </div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<br>
-					<input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
-					<a href="LibroServlet?listaLibros&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
-				</div>
-			</div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <br>
+                    <input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="confirmarEdicion(event)">
+                    <a href="LibroServlet?listaLibros&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
+                </div>
+            </div>
         </form>
     </div>
 
 </body>
 <%@include file="snippet/bootstrap_fin.jsp" %>
 <script>
-	function confirmarEdicion() {
-		return confirm("¿Estás seguro de que deseas guaradr los cambios?");
-	}
+    function confirmarEdicion(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        
+        Swal.fire({
+            title: '¿Estás seguro de que deseas guardar los cambios?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si se confirma, enviar el formulario
+                document.getElementById('enviar').disabled = true; // Deshabilitar el botón para evitar múltiples envíos
+                document.getElementById('enviar').form.submit();
+            }
+        });
+    }
 </script>
 </html>

@@ -7,6 +7,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css"> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,15 +107,21 @@
             var idPattern = /^PRE\d{2}$/;
             
             if (id === '' || idLibro === '' || fecPrestamo === '' || fecDevolucion === '' || idAlumno === '') {
-                alert("Todos los campos son requeridos.");
-                location.reload();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Campos requeridos',
+                    text: 'Todos los campos son requeridos.',
+                });
                 return false;
             }
             
             if (!idPattern.test(id)) {
-                alert("El formato de la ID no es válido. Debe seguir el formato 'PRE' seguido de dos dígitos.");
-                location.reload();
-                return false; // Evita enviar el formulario
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Formato de ID inválido',
+                    text: 'El formato de la ID no es válido.',
+                });
+                return false;
             }
             
             return true;

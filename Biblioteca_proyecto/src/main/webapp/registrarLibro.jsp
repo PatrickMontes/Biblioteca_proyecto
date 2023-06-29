@@ -7,6 +7,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css"> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,14 +94,12 @@
         var idPattern = /^LIB\d{2}$/;
         
         if (id === '' || titulo === '' || autor === '' || stock === '' || estado === '') {
-            alert("Todos los campos son requeridos.");
-            location.reload();
-            return false;
+        	swal("Error", "Todos los campos son requeridos.", "error");
+            return false; // Evita enviar el formulario
         }
         
         if (!idPattern.test(id)) {
-            alert("El formato de la ID no es válido. Debe seguir el formato 'LIB' seguido de dos dígitos.");
-            location.reload();
+        	swal("Error", "El formato de la ID no es válido", "error");
             return false; // Evita enviar el formulario
         }
         

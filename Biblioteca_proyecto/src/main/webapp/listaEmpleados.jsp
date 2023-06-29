@@ -24,7 +24,7 @@
     
         <table class="table table-striped"  id="tablaEmpleados">
             <tr>
-                <th scope="col">Código</th>
+                <th scope="col">Codigo</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Direccion</th>
@@ -64,9 +64,19 @@
         
 <script>
 	function confirmarEliminacion(id) {
-		if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
-			window.location.href = "EmpleadoServlet?action=eliminar&id=" + id;
-		}
+	    swal({
+	        title: "Seguro?",
+	        text: "Una vez eliminado, no podras recuperar este registro",
+	        icon: "warning",
+	        buttons: true,
+	        dangerMode: true,
+	    }).then((result) => {
+	        if (result) {
+				window.location.href = "EmpleadoServlet?action=eliminar&id=" + id;
+	        } else {
+	            swal("El registro no ha sido eliminado");
+	        }
+	    });
 	}
 	
 	function filtrarTabla() {
@@ -92,5 +102,5 @@
         }
     }
 </script>
-
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </html>

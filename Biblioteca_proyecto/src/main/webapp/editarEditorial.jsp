@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Editar Editorial</title>
     <%@include file="snippet/bootstrap_ini.jsp" %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
 </head>
 <body>
 
@@ -51,7 +53,7 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <br>
-                    <input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
+                    <input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="confirmarEdicion(event)">
 					<a href="EditorialServlet?listaEditoriales&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
                 </div>
             </div>
@@ -61,8 +63,22 @@
 </body>
 <%@include file="snippet/bootstrap_fin.jsp" %>
 <script>
-    function confirmarEdicion() {
-        return confirm("¿Estás seguro de que deseas guardar los cambios?");
+    function confirmarEdicion(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        
+        Swal.fire({
+            title: '¿Estás seguro de que deseas guardar los cambios?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si se confirma, enviar el formulario
+                document.getElementById('enviar').disabled = true; // Deshabilitar el botón para evitar múltiples envíos
+                document.getElementById('enviar').form.submit();
+            }
+        });
     }
 </script>
 </html>

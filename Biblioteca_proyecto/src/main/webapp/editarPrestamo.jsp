@@ -13,7 +13,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Editar Préstamo</title>
-    <%@include file="snippet/bootstrap_ini.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css"> 
+<%@include file="snippet/bootstrap_ini.jsp" %>
 </head>
 <body>
 
@@ -49,7 +51,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                 <div class="col-md-6">
+                <div class="col-md-6">
                     <label for="fecPrestamo" class="form-label"><b>Fecha de Préstamo:</b></label>
                     <input type="date" class="form-control" id="fecPrestamo" name="fecPrestamo" value="${ prestamo.fecPrestamo }">
                 </div>
@@ -86,19 +88,33 @@
                 </div>            
             </div>
             <div class="row">
-				<div class="col-md-12 text-center">
-					<br>
-					<input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="return confirmarEdicion()">
-					<a href="PrestamoServlet?ListaPrestamos&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
-				</div>
-			</div>
+                <div class="col-md-12 text-center">
+                    <br>
+                    <input type="submit" name="enviar" id="enviar" value="Editar" class="btn btn-primary" style="font-weight: 600" onclick="confirmarEdicion(event)">
+                    <a href="PrestamoServlet?ListaPrestamos&action=listar" class="btn btn-secondary" style="font-weight: 600">Regresar</a>
+                </div>
+            </div>
         </form>
     </div>
 
     <%@include file="snippet/bootstrap_fin.jsp" %>
     <script>
-    function confirmarEdicion() {
-        return confirm("¿Estás seguro de que deseas guardar los cambios?");
+    function confirmarEdicion(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        
+        Swal.fire({
+            title: '¿Estás seguro de que deseas guardar los cambios?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si se confirma, enviar el formulario
+                document.getElementById('enviar').disabled = true; // Deshabilitar el botón para evitar múltiples envíos
+                document.getElementById('enviar').form.submit();
+            }
+        });
     }
     </script>
 

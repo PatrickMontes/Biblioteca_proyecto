@@ -84,9 +84,20 @@ function filtrarTabla() {
 }
 
 
-    function confirmarEliminacion(idCompra) {
-        if (confirm("¿Estás seguro de eliminar esta compra?")) {
+function confirmarEliminacion(idCompra) {
+    swal({
+        title: "¿Seguro?",
+        text: "Una vez eliminado, no podrás recuperar este registro",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((result) => {
+        if (result) {
             window.location.href = "CompraLibroServlet?action=eliminar&id=" + idCompra;
+        } else {
+            swal("El registro no ha sido eliminado");
         }
-    }
+    });
+}
 </script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

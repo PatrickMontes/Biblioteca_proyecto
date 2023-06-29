@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Registrar Editorial</title>
     <%@include file="snippet/bootstrap_ini.jsp" %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css"> 
 </head>
 <body>
     <%@ include file="snippet/nav_bar.jsp"%>
@@ -77,15 +79,13 @@
         var idPattern = /^EDI\d{2}$/; // Expresión regular para el formato EDI seguido de dos dígitos
 
         if (id === '' || nombre === '' || direccion === '' || telefono === '' || email === '' || ruc === '') {
-            alert("Todos los campos son requeridos.");
-            location.reload();
-            return false;
+        	 swal("Error", "Todos los campos son requeridos.", "error");
+             return false; // Evita enviar el formulario
         }
 
         if (!idPattern.test(id)) {
-            alert("El formato de la ID no es válido. Debe seguir el formato 'EDI' seguido de dos dígitos.");      
-            location.reload();
-            return false;
+        	 swal("Error", "El formato de la ID no es válido", "error");
+             return false; // Evita enviar el formulario
         }
 
         return true;

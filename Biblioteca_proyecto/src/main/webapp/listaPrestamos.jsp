@@ -82,8 +82,19 @@
     }
 
     function confirmarEliminacion(idPrestamo) {
-        if (confirm("¿Estás seguro de eliminar este préstamo?")) {
-            window.location.href = "PrestamoServlet?action=eliminar&id=" + idPrestamo;
-        }
+        swal({
+            title: "¿Seguro?",
+            text: "Una vez eliminado, no podrás recuperar este préstamo",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((result) => {
+            if (result) {
+                window.location.href = "PrestamoServlet?action=eliminar&id=" + idPrestamo;
+            } else {
+                swal("El préstamo no ha sido eliminado");
+            }
+        });
     }
 </script>
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
